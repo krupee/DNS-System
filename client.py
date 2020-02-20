@@ -12,35 +12,34 @@ def client():
   #python client.py rsHostname rsListenPort tsListenPort
   
   # Defining the port on which you want to connect to the RS server
-    rsport = sys.argv[2]
+    rsport = int(sys.argv[2])
   # Defining hostname for RS server
-    rs_hostName = mysoc.gethostbyname(sys.argv[1])
-    # For testing purposes
-    #rs_hostName = mysoc.gethostbyname(mysoc.gethostname())
-    print(rs_hostName)
-    return 
+    #rs_hostName = mysoc.gethostbyname(sys.argv[1])
+    ## For testing purposes
+    rs_hostName = mysoc.gethostbyname(mysoc.gethostname())
+    #print(rs_hostName)
+
   # Defining the port on which you want to connect to the TS server
-    tsport = sys.argv[3]
+    tsport = int(sys.argv[3])
 
-    
-
-  # Connecting to the RS server on local machine
+  # Connecting to the RS server
     server_binding=(rs_hostName,rsport)
     cs.connect(server_binding)
-    rmsgs = []
-    msgs = []
 
-  # Reading HW1test.txt file and storing each line as an element in the msgs list
-    msgs = [line.rstrip('\n') for line in open('PROJI-HNS.txt')]
+    rmsgs = []
+    hns = []
+
+  # Reading PROJI-HNS.txt file and storing each line as an element in the Hostnames list
+    hns = [line.rstrip('\n') for line in open('test.txt')]
     i=0
 
-    while i in range(len(msgs)):
-    # Creating a header in order to specify number of characters in word to server
-      full = ("{:<10}".format(len(msgs[i]))+msgs[i])
+    while i in range(len(hns)):
+    # Creating a header in order to specify number of characters in each line to server
+      full = ("{:<10}".format(len(hns[i]))+hns[i])
     # Sending the word to server
-      print("[C]: Client sending word:: ",msgs[i])
+      print("[C]: Client sending word:: ",hns[i])
       cs.send(full.encode())
-
+      return
     # receiving data back from the server
       data_from_server=cs.recv(1024)
       print("[C]: Data received from server::",data_from_server.decode('utf-8'))

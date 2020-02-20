@@ -7,7 +7,7 @@ import socket as mysoc
 # server task
 def server():
     # Getting port in which rs listens to requests
-    rsListenPort = sys.argv[1]
+    rsListenPort = int(sys.argv[1])
 
     # Fetching and storing DNS table data
     with open("PROJI-DNSRS.txt") as file_in:
@@ -21,9 +21,9 @@ def server():
     except mysoc.error as err:
         print(format("socket open error ",err))
 
-    print(dns_table)
+    print("DNS table: ",dns_table)
 
-    return 
+
     server_binding=('',rsListenPort)
     ss.bind(server_binding)
     ss.listen(2)
@@ -67,9 +67,9 @@ def server():
         if len(stream)-10 == msglen:
             #print("full msg recvd:")
            
-            print(stream[10:])
-            cWord=stream[10:]
-            print(cWord)
+            #print(stream[10:])
+            recieved_hostname=stream[10:]
+            print(recieved_hostname)
             new_msg = True
             stream = ""
 
