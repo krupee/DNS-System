@@ -6,10 +6,11 @@ import socket as mysoc
 
 # server task
 def server():
+  
     # Getting port in which rs listens to requests
     rsListenPort = int(sys.argv[1])
 
-    # Fetching and storing DNS table data
+    # Fetching and storing DNS table data in list of lists
     with open("PROJI-DNSRS.txt") as file_in:
       dns_table = []
       for line in file_in:
@@ -28,7 +29,7 @@ def server():
     ss.bind(server_binding)
     ss.listen(2)
 
-    # Getting hostname
+    # Getting hostname of current machine
     host=mysoc.gethostname()
     print("[S]: Server host name is: ",host)
     localhost_ip=(mysoc.gethostbyname(host))
@@ -70,6 +71,11 @@ def server():
             #print(stream[10:])
             recieved_hostname=stream[10:]
             print(recieved_hostname)
+            e = dns_LookUp(recieved_hostname,dns_table)
+            # Sending back either A record or NS record back to client
+            csockid.send(e.encode('utf-8'))
+
+            # Resetting buffer
             new_msg = True
             stream = ""
 
@@ -80,5 +86,24 @@ def server():
    # Close the server socket
     ss.close()
     exit()
+
+
+# Does a DNS lookup in table for given hostname
+def dns_LookUp(hostname,dns_table):
+  for entries in dns_table:
+    print(entries[0])
+    if (hostname.lower() == entries[0].lower()) and (entries[2] == "A"):
+      
+      #print("{} {} A".format(entries[0],entries[1]))
+      # Found!
+      return "{} {} A".format(entries[0],entries[1])
+  
+  # Entry not found -- must direct to TS server
+
+  # Find entry with NS record
+  for entries in dns_table:
+    if (entries[2] == "NS"):
+      return "{} - NS".format(entries[0])
+
 
 server()
