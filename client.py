@@ -15,6 +15,7 @@ def client():
     rsport = int(sys.argv[2])
   # Defining hostname for RS server
     #rs_hostName = mysoc.gethostbyname(sys.argv[1])
+    
     ## For testing purposes
     rs_hostName = mysoc.gethostbyname(mysoc.gethostname())
     #print(rs_hostName)
