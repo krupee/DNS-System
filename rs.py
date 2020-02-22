@@ -70,7 +70,7 @@ def server():
            
             #print(stream[10:])
             recieved_hostname=stream[10:]
-            print(recieved_hostname)
+            #print(recieved_hostname)
             e = dns_LookUp(recieved_hostname,dns_table)
             # Sending back either A record or NS record back to client
             csockid.send(e.encode('utf-8'))
@@ -91,11 +91,11 @@ def server():
 # Does a DNS lookup in table for given hostname
 def dns_LookUp(hostname,dns_table):
   for entries in dns_table:
-    print(entries[0])
+    #print(entries[0])
     if (hostname.lower() == entries[0].lower()) and (entries[2] == "A"):
       
       #print("{} {} A".format(entries[0],entries[1]))
-      # Found!
+      print("Found in RS!")
       return "{} {} A".format(entries[0],entries[1])
   
   # Entry not found -- must direct to TS server
@@ -103,6 +103,7 @@ def dns_LookUp(hostname,dns_table):
   # Find entry with NS record
   for entries in dns_table:
     if (entries[2] == "NS"):
+      print("Not Found in RS!")
       return "{} - NS".format(entries[0])
 
 

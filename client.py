@@ -33,31 +33,41 @@ def client():
   # Reading PROJI-HNS.txt file and storing each line as an element in the Hostnames list
     hns = [line.rstrip('\n') for line in open('test.txt')]
     i=0
+  # Writing returned records to RESOLVED.txt file
+    f = open("RESOLVED.txt","w+")
 
     while i in range(len(hns)):
     # Creating a header in order to specify number of characters in each line to server
       full = ("{:<10}".format(len(hns[i]))+hns[i])
     # Sending the word to server
-      print("[C]: Client sending word:: ",hns[i])
+      print("[C]: Client sending hostname:: ",hns[i])
       cs.send(full.encode())
-      return
-    # receiving data back from the server
-      data_from_server=cs.recv(1024)
-      print("[C]: Data received from server::",data_from_server.decode('utf-8'))
-    # appending recieved data to returned msgs list of ascii values
-      rmsgs.append(data_from_server)
-      i = i+1
-    
-    
-    print(rmsgs)
+      
+    # Receiving data back from the server
+      data_from_server = cs.recv(1024).decode('utf-8')
+    # Splitting data into a list
+      data_list = data_from_server.split(" ")
 
-    # # Writing returned words to HW1out.txt file
-    # with open('HW1out.txt', 'w') as filehandle:
-    #   for j in rmsgs:
-    #     filehandle.write(j.decode('utf-8')+"\n")
+    # Checking if data recieved is an A record or NS record
+      if (data_list[2] == "A"):
+        # Is A record, can write data to output file
+        f.write(str(data_from_server)+"\n")
+      else:
+        # Is NS record, must check with TLS server
+        ### Add TLS check here
+        f.write("TLS CHECK HERE GO TO "+str(data_from_server)+"\n")
+      #print("[C]: Data received from server::",data_from_server)
+
+   
+      i = i+1
 
 # closing the client socket
     cs.close()
     exit()
+
+def tlsSocketConnections():
+# Open socket to TLS Server when needed and close after use 
+
+
 
 client()

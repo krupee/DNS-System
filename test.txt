@@ -1,1 +1,6 @@
-mx.rutgers.edu
+kill.cs.rutgers.edu
+mx.rutgers.com
+www.ibm.edu
+google.com
+www.google.com
+MX.RUTGERS.EDU
