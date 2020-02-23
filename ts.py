@@ -97,6 +97,12 @@ def dns_LookUp(hostname,dns_table):
       #print("{} {} A".format(entries[0],entries[1]))
       print("Found in TS!")
       return "{} {} A".format(entries[0],entries[1])
+
+  print("Not found in TS!")
+    
+    
+  return "{} - Error:HOST NOT FOUND".format(hostname)
+
   
   # Entry not found -- must direct to TS server
 
