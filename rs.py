@@ -22,7 +22,7 @@ def server():
     except mysoc.error as err:
         print(format("socket open error ",err))
 
-    print("DNS table: ",dns_table)
+    #print("DNS table: ",dns_table)
 
 
     server_binding=('',rsListenPort)
@@ -95,7 +95,7 @@ def dns_LookUp(hostname,dns_table):
     if (hostname.lower() == entries[0].lower()) and (entries[2] == "A"):
       
       #print("{} {} A".format(entries[0],entries[1]))
-      print("Found in RS!")
+      #print("Found in RS!")
       return "{} {} A".format(entries[0],entries[1])
   
   # Entry not found -- must direct to TS server
@@ -103,7 +103,7 @@ def dns_LookUp(hostname,dns_table):
   # Find entry with NS record
   for entries in dns_table:
     if (entries[2] == "NS"):
-      print("Not Found in RS!")
+      #print("Not Found in RS!")
       return "{} - NS".format(entries[0])
 
 

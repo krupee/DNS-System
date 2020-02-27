@@ -40,12 +40,12 @@ def client():
     f = open("RESOLVED.txt","w+")
 
     while i in range(len(hns)):
-      print(i)
+      #print(i)
     # Creating a header in order to specify number of characters in each line to server
       full = ("{:<10}".format(len(hns[i]))+hns[i])
-      print(full)
+      #print(full)
     # Sending the word to server
-      print("[C]: Client sending hostname:: ",hns[i])
+      print("[C]: Client sending hostname through Socket:: ",hns[i])
       cs.send(full.encode())
       #css.send(full.encode())
 
@@ -71,6 +71,7 @@ def client():
           ts_hostName = data_list[0]
           server_binding2=(ts_hostName,tsport)
           css.connect(server_binding2)
+        print("[C]: Client sending hostname to Socket 2:: ",hns[i])  
         css.send(full.encode())
         # Receiving data back from the server
         data_from_server = css.recv(1024).decode('utf-8')
